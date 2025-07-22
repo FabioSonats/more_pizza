@@ -11,6 +11,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 interface Pizza {
     nome: string;
@@ -37,6 +39,8 @@ const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho, setLoading }) =>
     const [open, setOpen] = useState(false);
     const [lastSabor, setLastSabor] = useState('');
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState<{ [nome: string]: string }>({});
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const handleTamanho = (nome: string, tamanho: string) => {
         setTamanhosSelecionados(prev => ({ ...prev, [nome]: tamanho }));
@@ -63,33 +67,33 @@ const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho, setLoading }) =>
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
-                {pizzas.map((pizza) => (
-                    <Box key={pizza.nome} sx={{ width: 300, mb: 2 }}>
-                        <Card>
+            {isMobile ? (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {pizzas.map((pizza) => (
+                        <Card key={pizza.nome} sx={{ display: 'flex', alignItems: 'center', p: 1, minHeight: 110, boxShadow: 2, borderRadius: 3 }}>
                             <CardMedia
                                 component="img"
-                                height="160"
                                 image={pizza.imagem}
                                 alt={pizza.nome}
+                                sx={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 2, mr: 2, bgcolor: '#eee' }}
                             />
-                            <CardContent sx={{ textAlign: 'center' }}>
-                                <Typography variant="h6" gutterBottom>{pizza.nome}</Typography>
-                                <Typography variant="body2" color="text.secondary">{pizza.descricao}</Typography>
-                                <FormControl component="fieldset" sx={{ mb: 1 }}>
-                                    <FormLabel component="legend" sx={{ fontSize: 13, mb: 0.5 }}>Tamanho</FormLabel>
+                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{pizza.nome}</Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5, fontSize: 13, whiteSpace: 'normal' }}>{pizza.descricao}</Typography>
+                                <FormControl component="fieldset" sx={{ mb: 0.5 }}>
+                                    <FormLabel component="legend" sx={{ fontSize: 12, mb: 0.2 }}>Tamanho</FormLabel>
                                     <RadioGroup
                                         row
                                         value={tamanhosSelecionados[pizza.nome] || 'Média'}
                                         onChange={e => handleTamanho(pizza.nome, e.target.value)}
-                                        sx={{ flexWrap: 'wrap', gap: 1 }}
+                                        sx={{ flexWrap: 'wrap', gap: 0.5 }}
                                     >
                                         {tamanhos.map((t) => (
-                                            <FormControlLabel key={t.label} value={t.label} control={<Radio size="small" />} label={t.label} />
+                                            <FormControlLabel key={t.label} value={t.label} control={<Radio size="small" />} label={<span style={{ fontSize: 12 }}>{t.label}</span>} />
                                         ))}
                                     </RadioGroup>
                                 </FormControl>
-                                <Typography variant="subtitle1" sx={{ mt: 1, color: 'secondary.main', fontWeight: 700 }}>
+                                <Typography variant="subtitle2" sx={{ color: 'secondary.main', fontWeight: 700, fontSize: 15 }}>
                                     R$ {(() => {
                                         const precoBase = Number(pizza.preco.replace('R$', '').replace(',', '.').trim());
                                         const tamanho = tamanhosSelecionados[pizza.nome] || 'Média';
@@ -97,14 +101,57 @@ const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho, setLoading }) =>
                                         return (Math.round(precoBase * fator * 100) / 100).toFixed(2);
                                     })()}
                                 </Typography>
-                                <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => handleAdd(pizza)}>
-                                    Adicionar ao Carrinho
-                                </Button>
-                            </CardContent>
+                            </Box>
+                            <Button variant="contained" color="primary" sx={{ ml: 1, fontWeight: 700, minWidth: 90 }} onClick={() => handleAdd(pizza)}>
+                                Adicionar
+                            </Button>
                         </Card>
-                    </Box>
-                ))}
-            </Box>
+                    ))}
+                </Box>
+            ) : (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+                    {pizzas.map((pizza) => (
+                        <Box key={pizza.nome} sx={{ width: 300, mb: 2 }}>
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    height="160"
+                                    image={pizza.imagem}
+                                    alt={pizza.nome}
+                                />
+                                <CardContent sx={{ textAlign: 'center' }}>
+                                    <Typography variant="h6" gutterBottom>{pizza.nome}</Typography>
+                                    <Typography variant="body2" color="text.secondary">{pizza.descricao}</Typography>
+                                    <FormControl component="fieldset" sx={{ mb: 1 }}>
+                                        <FormLabel component="legend" sx={{ fontSize: 13, mb: 0.5 }}>Tamanho</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            value={tamanhosSelecionados[pizza.nome] || 'Média'}
+                                            onChange={e => handleTamanho(pizza.nome, e.target.value)}
+                                            sx={{ flexWrap: 'wrap', gap: 1 }}
+                                        >
+                                            {tamanhos.map((t) => (
+                                                <FormControlLabel key={t.label} value={t.label} control={<Radio size="small" />} label={t.label} />
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <Typography variant="subtitle1" sx={{ mt: 1, color: 'secondary.main', fontWeight: 700 }}>
+                                        R$ {(() => {
+                                            const precoBase = Number(pizza.preco.replace('R$', '').replace(',', '.').trim());
+                                            const tamanho = tamanhosSelecionados[pizza.nome] || 'Média';
+                                            const fator = tamanhos.find(t => t.label === tamanho)?.fator || 1;
+                                            return (Math.round(precoBase * fator * 100) / 100).toFixed(2);
+                                        })()}
+                                    </Typography>
+                                    <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => handleAdd(pizza)}>
+                                        Adicionar ao Carrinho
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </Box>
+                    ))}
+                </Box>
+            )}
             <Snackbar
                 open={open}
                 autoHideDuration={1800}
