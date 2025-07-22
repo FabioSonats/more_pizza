@@ -33,13 +33,13 @@ const Bebidas: React.FC<Props> = ({ bebidas, setCarrinho }) => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, justifyContent: 'center' }}>
                 {bebidas.map((bebida) => (
                     <Box key={bebida.nome} sx={{ width: 240, mb: 2 }}>
-                        <Card sx={{ boxShadow: 4, borderRadius: 3, p: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: '#fff' }}>
+                        <Card sx={{ boxShadow: 4, borderRadius: 3, p: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: '#fff', minHeight: 370 }}>
                             <CardMedia
                                 component="img"
-                                height="140"
+                                height="160"
                                 image={bebida.imagem}
                                 alt={bebida.nome}
-                                sx={{ objectFit: 'cover', borderRadius: 2, mb: 1 }}
+                                sx={{ objectFit: 'cover', borderRadius: 2, mb: 1, width: '100%', minHeight: 160, background: '#eee' }}
                             />
                             <CardContent sx={{ textAlign: 'center', p: 1 }}>
                                 <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>{bebida.nome}</Typography>
