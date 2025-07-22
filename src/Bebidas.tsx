@@ -16,16 +16,19 @@ interface Bebida {
 interface Props {
     bebidas: Bebida[];
     setCarrinho: React.Dispatch<React.SetStateAction<any[]>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Bebidas: React.FC<Props> = ({ bebidas, setCarrinho }) => {
+const Bebidas: React.FC<Props> = ({ bebidas, setCarrinho, setLoading }) => {
     const [open, setOpen] = useState(false);
     const [lastBebida, setLastBebida] = useState('');
 
     const handleAdd = (bebida: Bebida) => {
+        setLoading(true);
         setCarrinho(prev => [...prev, { ...bebida, tipo: 'bebida' }]);
         setLastBebida(bebida.nome);
         setOpen(true);
+        setTimeout(() => setLoading(false), 1000);
     };
 
     return (

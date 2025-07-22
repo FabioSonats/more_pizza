@@ -17,9 +17,10 @@ export interface ItemCarrinho {
 interface CheckoutProps {
     carrinho: ItemCarrinho[];
     setCarrinho: React.Dispatch<React.SetStateAction<ItemCarrinho[]>>;
+    setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const whatsappNumber = '42991643802';
+const whatsappNumber = '5542991643802';
 
 function agruparItens(itens: ItemCarrinho[]) {
     const map = new Map<string, { item: ItemCarrinho; quantidade: number }>();
@@ -33,7 +34,7 @@ function agruparItens(itens: ItemCarrinho[]) {
     return Array.from(map.values());
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ carrinho, setCarrinho }) => {
+const Checkout: React.FC<CheckoutProps> = ({ carrinho, setCarrinho, setLoading }) => {
     const [nome, setNome] = useState('');
     const agrupados = agruparItens(carrinho);
     const total = agrupados.reduce((acc, { item, quantidade }) => acc + (item.preco * quantidade), 0);

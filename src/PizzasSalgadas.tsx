@@ -22,6 +22,7 @@ interface Pizza {
 interface Props {
     pizzas: Pizza[];
     setCarrinho: React.Dispatch<React.SetStateAction<any[]>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const tamanhos = [
@@ -32,7 +33,7 @@ const tamanhos = [
     { label: 'Big', fator: 1.6 },
 ];
 
-const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho }) => {
+const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho, setLoading }) => {
     const [open, setOpen] = useState(false);
     const [lastSabor, setLastSabor] = useState('');
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState<{ [nome: string]: string }>({});
@@ -42,6 +43,7 @@ const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho }) => {
     };
 
     const handleAdd = (pizza: Pizza) => {
+        setLoading(true);
         // Extrai o valor numérico do preço (ex: 'R$ 49,90' -> 49.90)
         const precoBase = Number(pizza.preco.replace('R$', '').replace(',', '.').trim());
         const tamanho = tamanhosSelecionados[pizza.nome] || 'Média';
@@ -56,6 +58,7 @@ const PizzasSalgadas: React.FC<Props> = ({ pizzas, setCarrinho }) => {
         }]);
         setLastSabor(pizza.nome);
         setOpen(true);
+        setTimeout(() => setLoading(false), 1000);
     };
 
     return (

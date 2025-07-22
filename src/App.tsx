@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -33,6 +33,7 @@ import Privacidade from './Privacidade';
 import Checkout from './Checkout';
 import Badge from '@mui/material/Badge';
 import type { ItemCarrinho } from './Checkout';
+import Loader from './Loader';
 // Remover qualquer função Home duplicada
 
 // Cores da bandeira da Itália
@@ -66,9 +67,11 @@ const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawer = (open: boolean) => () => setDrawerOpen(open);
   const [carrinho, setCarrinho] = useState<ItemCarrinho[]>([]); // Corrigido para ItemCarrinho[]
+  const [loading, setLoading] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
+      <Loader open={loading} />
       <Router>
         <Box sx={{ flexGrow: 1, bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
           {/* AppBar moderna com gradiente e logo */}
@@ -160,10 +163,10 @@ const App: React.FC = () => {
           <Box sx={{ p: 2, flex: 1 }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/cardapio" element={<Cardapio setCarrinho={setCarrinho} />} />
+              <Route path="/cardapio" element={<Cardapio setCarrinho={setCarrinho} setLoading={setLoading} />} />
               <Route path="/sobre" element={<Sobre />} />
               <Route path="/privacidade" element={<Privacidade />} />
-              <Route path="/checkout" element={<Checkout carrinho={carrinho} setCarrinho={setCarrinho} />} />
+              <Route path="/checkout" element={<Checkout carrinho={carrinho} setCarrinho={setCarrinho} setLoading={setLoading} />} />
             </Routes>
           </Box>
           <Footer />

@@ -14,9 +14,10 @@ const heroImg = process.env.PUBLIC_URL + '/img/pizza-banner.jpg';
 
 interface CardapioProps {
     setCarrinho: React.Dispatch<React.SetStateAction<any[]>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Cardapio: React.FC<CardapioProps> = ({ setCarrinho }) => {
+const Cardapio: React.FC<CardapioProps> = ({ setCarrinho, setLoading }) => {
     const [openMontar, setOpenMontar] = useState(false);
     return (
         <Box>
@@ -69,14 +70,14 @@ const Cardapio: React.FC<CardapioProps> = ({ setCarrinho }) => {
                     Montar Pizza (2 ou 3 sabores)
                 </Button>
             </Box>
-            <MontarPizzaModal open={openMontar} onClose={() => setOpenMontar(false)} pizzas={pizzasSalgadas} setCarrinho={setCarrinho} />
-            <PizzasSalgadas pizzas={pizzasSalgadas} setCarrinho={setCarrinho} />
+            <MontarPizzaModal open={openMontar} onClose={() => setOpenMontar(false)} pizzas={pizzasSalgadas} setCarrinho={setCarrinho} setLoading={setLoading} />
+            <PizzasSalgadas pizzas={pizzasSalgadas} setCarrinho={setCarrinho} setLoading={setLoading} />
             <Divider sx={{ my: 4 }} />
             <Typography variant="h4" sx={{ mt: 2, mb: 2, color: 'secondary.main', textAlign: 'center' }}>Pizzas Doces Populares</Typography>
-            <PizzasDoces pizzas={pizzasDoces} setCarrinho={setCarrinho} />
+            <PizzasDoces pizzas={pizzasDoces} setCarrinho={setCarrinho} setLoading={setLoading} />
             <Divider sx={{ my: 4 }} />
             <Typography variant="h4" sx={{ mt: 2, mb: 2, color: 'primary.main', textAlign: 'center' }}>Bebidas</Typography>
-            <Bebidas bebidas={bebidas} setCarrinho={setCarrinho} />
+            <Bebidas bebidas={bebidas} setCarrinho={setCarrinho} setLoading={setLoading} />
         </Box>
     );
 };

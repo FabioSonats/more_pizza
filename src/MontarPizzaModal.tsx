@@ -26,6 +26,7 @@ interface Props {
     onClose: () => void;
     pizzas: Pizza[];
     setCarrinho: React.Dispatch<React.SetStateAction<any[]>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const tamanhos = [
@@ -36,7 +37,7 @@ const tamanhos = [
     { label: 'Big', fator: 1.6 },
 ];
 
-const MontarPizzaModal: React.FC<Props> = ({ open, onClose, pizzas, setCarrinho }) => {
+const MontarPizzaModal: React.FC<Props> = ({ open, onClose, pizzas, setCarrinho, setLoading }) => {
     const [selecionados, setSelecionados] = useState<string[]>([]);
     const [snack, setSnack] = useState(false);
     const [tamanho, setTamanho] = useState('Média');
@@ -52,6 +53,7 @@ const MontarPizzaModal: React.FC<Props> = ({ open, onClose, pizzas, setCarrinho 
     };
 
     const handleAdd = () => {
+        setLoading(true);
         const sabores = pizzas.filter((p) => selecionados.includes(p.nome));
         if (sabores.length < 2) return;
         const precoBase = Math.max(...sabores.map((p) => Number(p.preco.replace('R$', '').replace(',', '.').trim())));
@@ -72,6 +74,7 @@ const MontarPizzaModal: React.FC<Props> = ({ open, onClose, pizzas, setCarrinho 
         setSelecionados([]);
         setTamanho('Média');
         onClose();
+        setTimeout(() => setLoading(false), 1000);
     };
 
     const handleClose = () => {
