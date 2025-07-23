@@ -65,12 +65,7 @@ const Cardapio: React.FC<CardapioProps> = ({ setCarrinho, setLoading }) => {
             </Box>
 
             <Typography variant="h4" sx={{ mt: 2, mb: 2, color: 'primary.main', textAlign: 'center' }}>Pizzas Salgadas Mais Populares</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                <Button variant="contained" color="secondary" size="large" sx={{ fontWeight: 700, borderRadius: 2 }} onClick={() => setOpenMontar(true)}>
-                    Montar Pizza (2 ou 3 sabores)
-                </Button>
-            </Box>
-            <MontarPizzaModal open={openMontar} onClose={() => setOpenMontar(false)} pizzas={pizzasSalgadas} setCarrinho={setCarrinho} setLoading={setLoading} />
+            {/* Removido botão e modal de montar pizza */}
             <PizzasSalgadas pizzas={pizzasSalgadas} setCarrinho={setCarrinho} setLoading={setLoading} />
             <Divider sx={{ my: 4 }} />
             <Typography variant="h4" sx={{ mt: 2, mb: 2, color: 'secondary.main', textAlign: 'center' }}>Pizzas Doces Populares</Typography>

@@ -83,21 +83,6 @@ const Home: React.FC = () => (
             </Box>
         </Fade>
 
-        {/* História */}
-        <Fade in timeout={1200}>
-            <Box sx={{ maxWidth: 800, mx: 'auto', mb: 8, p: 3, bgcolor: '#fff', borderRadius: 2, boxShadow: 2, textAlign: 'center' }}>
-                <Typography variant="h4" sx={{ mb: 2, color: 'primary.main', fontWeight: 700 }}>
-                    Nossa História
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: 18 }}>
-                    Fundada no coração de Curitiba, a <b>Minha Pizzaria</b> nasceu do sonho de uma família apaixonada por pizza e pela cultura italiana. Unimos ingredientes frescos, receitas autênticas e um ambiente acolhedor para criar momentos inesquecíveis.
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: 18 }}>
-                    Ao longo dos anos, nos tornamos referência na cidade por nossas pizzas artesanais, assadas em forno de pedra, e pelo atendimento caloroso. Nossa missão é proporcionar alegria a cada fatia!
-                </Typography>
-            </Box>
-        </Fade>
-
         {/* Diferenciais */}
         <Fade in timeout={1500}>
             <Box sx={{ maxWidth: 900, mx: 'auto', mb: 8, p: 3, bgcolor: '#f8f8f8', borderRadius: 2, boxShadow: 1, textAlign: 'center' }}>

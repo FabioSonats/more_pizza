@@ -50,14 +50,14 @@ const Checkout: React.FC<CheckoutProps> = ({ carrinho, setCarrinho, setLoading }
     };
 
     return (
-        <Box sx={{ maxWidth: 500, mx: 'auto', mt: 6, p: 3, bgcolor: '#fff', borderRadius: 3, boxShadow: 4, textAlign: 'center' }}>
+        <Box sx={{ maxWidth: 500, mx: 'auto', mt: 6, p: 3, bgcolor: '#fff', borderRadius: 3, boxShadow: 4, textAlign: 'center', display: 'flex', flexDirection: 'column', minHeight: 400 }}>
             <Typography variant="h4" sx={{ mb: 2, color: 'primary.main', fontWeight: 800 }}>
                 Finalizar Pedido
             </Typography>
             <Typography variant="body1" sx={{ mb: 2 }}>
                 Confira os itens escolhidos e preencha seu nome para enviar o pedido pelo WhatsApp:
             </Typography>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ flex: 1, mb: 2, minHeight: 120, maxHeight: 220, overflowY: 'auto' }}>
                 {agrupados.length === 0 ? (
                     <Typography variant="subtitle1" color="text.secondary">Seu carrinho está vazio.</Typography>
                 ) : (
@@ -79,13 +79,14 @@ const Checkout: React.FC<CheckoutProps> = ({ carrinho, setCarrinho, setLoading }
                                 </IconButton>
                             </Box>
                         ))}
-                        <Divider sx={{ my: 2 }} />
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main' }}>Subtotal:</Typography>
-                            <Typography variant="h5" sx={{ fontWeight: 900, color: 'secondary.main' }}>R$ {total.toFixed(2)}</Typography>
-                        </Box>
                     </Box>
                 )}
+            </Box>
+            {/* Subtotal e botões fixos */}
+            <Divider sx={{ my: 2 }} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1, mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main' }}>Subtotal:</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: 'secondary.main' }}>R$ {total.toFixed(2)}</Typography>
             </Box>
             <TextField
                 label="Seu nome"
@@ -94,26 +95,28 @@ const Checkout: React.FC<CheckoutProps> = ({ carrinho, setCarrinho, setLoading }
                 fullWidth
                 sx={{ mb: 2 }}
             />
-            <Button
-                variant="contained"
-                color="success"
-                size="large"
-                href={linkWhats}
-                target="_blank"
-                disabled={agrupados.length === 0 || !nome}
-                sx={{ fontWeight: 700, fontSize: 18, px: 4, py: 1.5, borderRadius: 2, boxShadow: 2, mb: 2 }}
-            >
-                Enviar Pedido pelo WhatsApp
-            </Button>
-            <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => setCarrinho([])}
-                sx={{ ml: 2, fontWeight: 500 }}
-                disabled={agrupados.length === 0}
-            >
-                Limpar Carrinho
-            </Button>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'center' }}>
+                <Button
+                    variant="contained"
+                    color="success"
+                    size="large"
+                    href={linkWhats}
+                    target="_blank"
+                    disabled={agrupados.length === 0 || !nome}
+                    sx={{ fontWeight: 700, fontSize: 18, px: 4, py: 1.5, borderRadius: 2, boxShadow: 2 }}
+                >
+                    Enviar Pedido pelo WhatsApp
+                </Button>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => setCarrinho([])}
+                    disabled={agrupados.length === 0}
+                    sx={{ fontWeight: 500 }}
+                >
+                    Limpar Carrinho
+                </Button>
+            </Box>
         </Box>
     );
 };
