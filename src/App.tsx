@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -34,6 +34,7 @@ import Checkout from './Checkout';
 import Badge from '@mui/material/Badge';
 import type { ItemCarrinho } from './Checkout';
 import Loader from './Loader';
+import Sobre from './Sobre';
 // Remover qualquer função Home duplicada
 
 // Cores da bandeira da Itália
@@ -53,15 +54,21 @@ const theme = createTheme({
   },
 });
 
-function Sobre() {
-  return <Typography variant="h4" sx={{ mt: 2 }}>Sobre a Pizzaria (em breve!)</Typography>;
-}
+
 
 const navLinks = [
   { label: 'HOME', to: '/', icon: <HomeIcon /> },
   { label: 'CARDÁPIO', to: '/cardapio', icon: <RestaurantMenuIcon /> },
   { label: 'SOBRE', to: '/sobre', icon: <AccountCircleIcon /> },
 ];
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [pathname]);
+  return null;
+}
 
 const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -73,9 +80,10 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <Loader open={loading} />
       <Router>
+        <ScrollToTop />
         <Box sx={{ flexGrow: 1, bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
           {/* AppBar moderna com gradiente e logo */}
-          <AppBar position="static" sx={{
+          <AppBar position="fixed" sx={{
             background: 'linear-gradient(90deg, #008000 0%, #f5e9da 100%)',
             boxShadow: 3,
             py: 0.5,
@@ -159,6 +167,7 @@ const App: React.FC = () => {
               </Box>
             </Toolbar>
           </AppBar>
+          <Box sx={{ height: { xs: 56, md: 64 } }} />
           {/* Conteúdo principal */}
           <Box sx={{ p: 2, flex: 1 }}>
             <Routes>
